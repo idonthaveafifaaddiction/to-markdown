@@ -233,7 +233,7 @@ toMarkdown.outer = outer
 
 module.exports = toMarkdown
 
-},{"./lib/gfm-converters":2,"./lib/html-parser":3,"./lib/md-converters":4,"collapse-whitespace":7}],2:[function(require,module,exports){
+},{"./lib/gfm-converters":2,"./lib/html-parser":3,"./lib/md-converters":4,"collapse-whitespace":6}],2:[function(require,module,exports){
 'use strict'
 
 function cell (content, node) {
@@ -423,7 +423,7 @@ function shouldUseActiveX () {
 
 module.exports = canParseHtmlNatively() ? _window.DOMParser : createHtmlParser()
 
-},{"jsdom":6}],4:[function(require,module,exports){
+},{"jsdom":5}],4:[function(require,module,exports){
 'use strict'
 
 module.exports = [
@@ -534,9 +534,12 @@ module.exports = [
       content = content.replace(/^\s+/, '').replace(/\n/gm, '\n    ')
       var prefix = '*   '
       var parent = node.parentNode
-      var index = Array.prototype.indexOf.call(parent.children, node) + 1
+      if (parent.nodeName === 'OL') {
+        var start = parent.getAttribute('start')
+        var index = Array.prototype.indexOf.call(parent.children, node)
+        prefix = (start ? Number(start) + index : index + 1) + '.  '
+      }
 
-      prefix = /ol/i.test(parent.nodeName) ? index + '.  ' : '*   '
       return prefix + content
     }
   },
@@ -577,52 +580,8 @@ module.exports = [
 ]
 
 },{}],5:[function(require,module,exports){
-/**
- * This file automatically generated from `build.js`.
- * Do not manually edit.
- */
-
-module.exports = [
-  "address",
-  "article",
-  "aside",
-  "audio",
-  "blockquote",
-  "canvas",
-  "dd",
-  "div",
-  "dl",
-  "fieldset",
-  "figcaption",
-  "figure",
-  "footer",
-  "form",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "header",
-  "hgroup",
-  "hr",
-  "main",
-  "nav",
-  "noscript",
-  "ol",
-  "output",
-  "p",
-  "pre",
-  "section",
-  "table",
-  "tfoot",
-  "ul",
-  "video"
-];
 
 },{}],6:[function(require,module,exports){
-
-},{}],7:[function(require,module,exports){
 'use strict';
 
 var voidElements = require('void-elements');
@@ -646,6 +605,18 @@ function isBlockElem(node) {
 }
 
 /**
+ * isPreElem(node) determines if the given node is a PRE element.
+ * 
+ * Whitespace for PRE elements are not collapsed.
+ * 
+ * @param {Node} node
+ * @return {Boolean}
+ */
+function isPreElem(node) {
+  return node.nodeName === 'PRE';
+}
+
+/**
  * isVoid(node) determines if the given node is a void element.
  *
  * @param {Node} node
@@ -665,23 +636,27 @@ function isVoid(node) {
  * @param {Node} elem
  * @param {Function} blockTest
  */
-function collapseWhitespace(elem, isBlock) {
+function collapseWhitespace(elem, isBlock, isPre) {
   if (!elem.firstChild || elem.nodeName === 'PRE') return;
 
   if (typeof isBlock !== 'function') {
     isBlock = isBlockElem;
   }
 
+  if (typeof isPre !== 'function') {
+    isPre = isPreElem;
+  }
+
   var prevText = null;
   var prevVoid = false;
 
   var prev = null;
-  var node = next(prev, elem);
+  var node = next(prev, elem, isPre);
 
   while (node !== elem) {
-    if (node.nodeType === 3) {
-      // Node.TEXT_NODE
-      var text = node.data.replace(/[ \r\n\t]+/g, ' ');
+    if (node.nodeType === 3 || node.nodeType === 4) {
+      // Node.TEXT_NODE or Node.CDATA_SECTION_NODE
+      var text = node.data;
 
       if ((!prevText || / $/.test(prevText.data)) && !prevVoid && text[0] === ' ') {
         text = text.substr(1);
@@ -694,6 +669,7 @@ function collapseWhitespace(elem, isBlock) {
       }
 
       node.data = text;
+
       prevText = node;
     } else if (node.nodeType === 1) {
       // Node.ELEMENT_NODE
@@ -714,7 +690,7 @@ function collapseWhitespace(elem, isBlock) {
       continue;
     }
 
-    var nextNode = next(prev, node);
+    var nextNode = next(prev, node, isPre);
     prev = node;
     node = nextNode;
   }
@@ -743,15 +719,16 @@ function remove(node) {
 }
 
 /**
- * next(prev, current) returns the next node in the sequence, given the
+ * next(prev, current, isPre) returns the next node in the sequence, given the
  * current and previous nodes.
  *
  * @param {Node} prev
  * @param {Node} current
+ * @param {Function} isPre
  * @return {Node}
  */
-function next(prev, current) {
-  if (prev && prev.parentNode === current || current.nodeName === 'PRE') {
+function next(prev, current, isPre) {
+  if (prev && prev.parentNode === current || isPre(current)) {
     return current.nextSibling || current.parentNode;
   }
 
@@ -760,7 +737,52 @@ function next(prev, current) {
 
 module.exports = collapseWhitespace;
 
-},{"block-elements":5,"void-elements":8}],8:[function(require,module,exports){
+},{"block-elements":7,"void-elements":8}],7:[function(require,module,exports){
+/**
+ * This file automatically generated from `build.js`.
+ * Do not manually edit.
+ */
+
+module.exports = [
+  "address",
+  "article",
+  "aside",
+  "blockquote",
+  "canvas",
+  "dd",
+  "div",
+  "dl",
+  "dt",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "footer",
+  "form",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "header",
+  "hgroup",
+  "hr",
+  "li",
+  "main",
+  "nav",
+  "noscript",
+  "ol",
+  "output",
+  "p",
+  "pre",
+  "section",
+  "table",
+  "tfoot",
+  "ul",
+  "video"
+];
+
+},{}],8:[function(require,module,exports){
 /**
  * This file automatically generated from `pre-publish.js`.
  * Do not manually edit.

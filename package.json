@@ -7,7 +7,7 @@
     "jsdom": false
   },
   "dependencies": {
-    "collapse-whitespace": "1.1.2",
+    "collapse-whitespace": "github:Driftt/collapse-whitespace",
     "jsdom": "^9.0.0"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "url": "https://github.com/domchristie/to-markdown.git"
   },
   "scripts": {
-    "start": "watchify -s toMarkdown -o dist/to-markdown.js index.js -v",
+    "start": "browserify toMarkdown -o dist/to-markdown.js index.js -v",
     "test": "standard index.js lib/**/*.js test/**/*.js && qunit -c ./index.js -t ./test/to-markdown-test.js ./test/gfm-test.js"
   },
   "url": "http://domchristie.github.com/to-markdown/"
