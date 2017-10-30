@@ -199,8 +199,8 @@ toMarkdown = function (input, options) {
     return ''
   }
 
-  // Escape potential ol triggers
-  input = input.replace(/(\d+)\. /g, '$1\\. ')
+  // Escape potential ol triggers (Drift markdown does not support lists)
+  // input = input.replace(/(\d+)\. /g, '$1\\. ')
 
   var clone = htmlToDom(input).body
   var nodes = bfsOrder(clone)
