@@ -1,7 +1,7 @@
 {
   "name": "@driftt/to-markdown",
   "description": "HTML-to-Markdown converter",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "author": "Dom Christie",
   "browser": {
     "jsdom": false
@@ -27,7 +27,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/domchristie/to-markdown.git"
+    "url": "https://github.com/driftt/to-markdown.git"
   },
   "scripts": {
     "start": "browserify toMarkdown -o dist/to-markdown.js index.js -v",
