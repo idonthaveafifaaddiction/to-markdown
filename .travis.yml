@@ -1,17 +1,17 @@
 language: node_js
 node_js:
-  - 4
-
+- 4
 before_script:
-  - npm install -g bower
-  - bower install --dev
-  - npm install --dev
-
+- npm config set //npm.pkg.github.com/:_authToken=$GITHUB_PKG_REGISTRY_TOKEN
+- npm config set @driftt:registry=https://npm.pkg.github.com/
+- npm install -g bower
+- bower install --dev
+- npm install --dev
 script:
-  - npm test
-  - testem ci --port 8080
-
+- npm test
+- testem ci --port 8080
 env:
   global:
-    - secure: gPidjA+ITMh8LixuPvvf/haZXOiM4eLbixFZupkeUo8jHgiBDBCoytzOvrXlBOWFx5QEByr7t4Q/UOHVVFM5/eRykN0RxO7JUiiosU49WFPB6uFiTEqmZx3Kb8L2bG8SITvCoRJSLVi1JS9dX5bQeeLA5HD/me+9ak4Ef4A0rlk=
-    - secure: PnHNOs9Ld/kO4qXhjxtE04j/zC0rgPMev5FpbTQ7gEqDGn1PBTfKWLAcbUpPkMO9hKADJvBCWU8+VCmPZ0Qk6nu6KKAAkvE5acpwM3yeLckgzVxeAncxS9mvGSTNRv9EHbxIN9g8Jo1FtN0UhY9Y23xq8MxyDC0ManeLin7Q6qs=
+  - secure: gPidjA+ITMh8LixuPvvf/haZXOiM4eLbixFZupkeUo8jHgiBDBCoytzOvrXlBOWFx5QEByr7t4Q/UOHVVFM5/eRykN0RxO7JUiiosU49WFPB6uFiTEqmZx3Kb8L2bG8SITvCoRJSLVi1JS9dX5bQeeLA5HD/me+9ak4Ef4A0rlk=
+  - secure: PnHNOs9Ld/kO4qXhjxtE04j/zC0rgPMev5FpbTQ7gEqDGn1PBTfKWLAcbUpPkMO9hKADJvBCWU8+VCmPZ0Qk6nu6KKAAkvE5acpwM3yeLckgzVxeAncxS9mvGSTNRv9EHbxIN9g8Jo1FtN0UhY9Y23xq8MxyDC0ManeLin7Q6qs=
+  - secure: TcdN89HNsf/cgCu2BBK+BdjvbzWfnslKmS87/jFRB2yskywqwUK/lx3AzrfVsRxTmExwxvWztt78+CYHnJlkB7SY5+B5tCUriIY9jpFu0bOqYf+8ePLRJrysP9iKrReho9OsUO5bSVSayhEPbP9G6GvNsXGaJoK44LfkYMDCT4Zwrz5/3yYzTqKeuX2/qSoTXU8rEO4wNhRzXdG79/q5po/0c6NLxzgVGePmry8vfQ1SkB9Fgn8i5BX0GtmMeRCywnAKvKNUW58sd+fKLOLKNeQYZrnovJerX9tuTfz6AGu91PXQtNSPQSaQ7eYHSX30swTMuHur5SCVoMrhG2VYJCwMPUV/sRRtUG5TfAziwgcKHMBPXbRk+Bxg5g99nfvA9HmQzSHfQvfI4mkuYB+m6Jt3vYWUiO7OyIYOyNqcLjJr+bxYlxib4BsREl5DPJk8lCTKYpukK47qa8fsop8R+EjRydALDxcXUJqiGdCHDe3RHLNMKpRGMzDQ17P2r7CPk6Hn3dAzkvGWxnPbsTh7ywVnWzEvBrGcHypffltaksKYE0XU3wD6FHZ0w5F7isjYsPhMnEDLSZbX/K4+1HWkrkV6epAsAlvBfk3FQdMry8IVDBbYdsMqv8HbWu5KB3qN3uzEfl5Vzm9KN3Ot87MMfLViHW/Q+khBYFHxYZbgd5M=
