@@ -13,7 +13,7 @@ var converters
 var mdConverters = require('./lib/md-converters')
 var gfmConverters = require('./lib/gfm-converters')
 var HtmlParser = require('./lib/html-parser')
-var collapse = require('@drifthq/collapse-whitespace')
+var collapse = require('@driftt/collapse-whitespace')
 
 /*
  * Utilities

@@ -1,5 +1,5 @@
 {
-  "name": "@drifthq/to-markdown",
+  "name": "@driftt/to-markdown",
   "description": "HTML-to-Markdown converter",
   "version": "3.1.1",
   "author": "Dom Christie",
@@ -7,7 +7,7 @@
     "jsdom": false
   },
   "dependencies": {
-    "@drifthq/collapse-whitespace": "1.1.7",
+    "@driftt/collapse-whitespace": "1.1.7",
     "jsdom": "^9.0.0"
   },
   "devDependencies": {
